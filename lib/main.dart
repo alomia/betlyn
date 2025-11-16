@@ -7,7 +7,6 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:betlyn/config/router/app_router.dart';
 import 'package:betlyn/config/theme/app_theme.dart';
 
-
 Future<void> main() async {
 
   await dotenv.load(fileName: '.env');

@@ -50,7 +50,7 @@ class _LeagueItem extends StatelessWidget {
       child: Column(
         children: [
           CircleAvatar(
-            backgroundColor: colorScheme.primary.withAlpha(30),
+            backgroundColor: Colors.white,
             radius: 35,
             child: Padding(
               padding: const EdgeInsets.all(15.0),

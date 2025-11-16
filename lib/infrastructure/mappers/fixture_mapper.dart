@@ -1,6 +1,7 @@
 import 'package:betlyn/domain/entities/entities.dart';
 import 'package:betlyn/infrastructure/mappers/league_mapper.dart';
 import 'package:betlyn/infrastructure/mappers/team_mapper.dart';
+import 'package:betlyn/infrastructure/mappers/venue_mapper.dart';
 import 'package:betlyn/infrastructure/models/sportmonks/fixture_model.dart';
 
 class FixtureMapper {
@@ -19,7 +20,8 @@ class FixtureMapper {
       startingAt: fixture.startingAt,
       home: TeamMapper.toEntity(home),
       away: TeamMapper.toEntity(away),
-      league: LeagueMapper.toEntity(fixture.league)
+      league: LeagueMapper.toEntity(fixture.league),
+      venue: VenueMapper.toEntity(fixture.venue),
     );
   }
 }

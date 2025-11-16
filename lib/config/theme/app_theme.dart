@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 final _primaryColor = Color(0xFF9e2a2b);
 // final _borderRadius = BorderRadius.circular(10.0);
 
-final lightColorScheme = ColorScheme.fromSeed(seedColor: _primaryColor);
+final lightColorScheme = ColorScheme.fromSeed(
+  seedColor: _primaryColor,
+  surface: Colors.grey.shade100,
+);
 
 final darkColorScheme = ColorScheme.fromSeed(
   seedColor: _primaryColor,
