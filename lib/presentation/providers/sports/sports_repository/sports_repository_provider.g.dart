@@ -26,7 +26,7 @@ final class SportsRepositoryProvider
         argument: null,
         retry: null,
         name: r'sportsRepositoryProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -54,4 +54,4 @@ final class SportsRepositoryProvider
   }
 }
 
-String _$sportsRepositoryHash() => r'4299ee919e3e0cf71ba313f43ca53b0cea7d6b2d';
+String _$sportsRepositoryHash() => r'79008c257bec8d3b0681b19ca95ee7dfdc81b3de';

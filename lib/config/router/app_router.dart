@@ -11,13 +11,15 @@ final appRouter = GoRouter(
           MainShellScreen(navigationShell: navigationShell),
       branches: [
         StatefulShellBranch(
-          routes: [GoRoute(path: '/', builder: (context, state) => HomeView())],
-        ),
-        StatefulShellBranch(
           routes: [
             GoRoute(
-              path: '/matches',
+              path: '/',
               builder: (context, state) => MatchesView(),
+            ),
+
+            GoRoute(
+              path: '/match/:id',
+              builder: (context, state) => MatchDetailsView(matchId: state.pathParameters['id']!,),
             ),
           ],
         ),

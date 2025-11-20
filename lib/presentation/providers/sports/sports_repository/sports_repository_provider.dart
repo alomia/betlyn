@@ -4,7 +4,7 @@ import 'package:betlyn/infrastructure/repositories/repositories.dart';
 
 part 'sports_repository_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 SportsRepositoryImpl sportsRepository(Ref ref) {
   return SportsRepositoryImpl(SportmonksDatasource());
 }

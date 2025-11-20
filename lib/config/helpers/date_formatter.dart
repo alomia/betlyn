@@ -1,38 +1,32 @@
 import 'package:intl/intl.dart';
 
 class DateFormatter {
+  static final DateFormat _formatter = DateFormat('yyyy-MM-dd');
+  static final DateFormat _humanReadableFormatter = DateFormat('MMM, dd yyyy', 'en_US');
+
+  static String toHumanReadable(DateTime dateTime) {
+    return _humanReadableFormatter.format(dateTime);
+  }
+
   static String today() {
-    final now = DateTime.now();
-    return DateFormat('yyyy-MM-dd').format(now);
+    return _formatter.format(DateTime.now());
   }
 
   static String format(DateTime date) {
-    return DateFormat('yyyy-MM-dd').format(date);
+    return _formatter.format(date);
   }
 
-  static ({String start, String end}) weekRangeFromToday() {
+  static String nextDays(int days) {
+    return _formatter.format(
+      DateTime.now().add(Duration(days: days)),
+    );
+  }
+
+  static ({String start, String end}) range(int days) {
     final now = DateTime.now();
-    final nextWeek = now.add(const Duration(days: 7));
-
-    return (start: format(now), end: format(nextWeek));
-  }
-
-  static String humanDate(String utcDateString) {
-    final utcDate = DateTime.parse(utcDateString);
-    final localDate = utcDate.toLocal();
-
-    return DateFormat('EEE, dd MMM', 'es_ES')
-        .format(localDate)
-        .replaceAll('.', ''); // A veces agrega puntos en otros locales
-  }
-
-  static String humanTime(String utcDateString) {
-    final utcDate = DateTime.parse(utcDateString);
-    final localDate = utcDate.toLocal();
-
-    return DateFormat(
-      'hh:mm a',
-      'es_ES',
-    ).format(localDate).replaceAll("a. m.", "a.m.").replaceAll("p. m.", "p.m.");
+    return (
+      start: _formatter.format(now),
+      end: _formatter.format(now.add(Duration(days: days))),
+    );
   }
 }

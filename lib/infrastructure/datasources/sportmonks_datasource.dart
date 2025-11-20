@@ -1,13 +1,14 @@
-import 'package:betlyn/infrastructure/mappers/mappers.dart';
+import 'package:betlyn/domain/entities/season.dart';
+import 'package:betlyn/infrastructure/mappers/season_mapper.dart';
+import 'package:betlyn/infrastructure/models/sportmonks/fixture_model.dart';
+import 'package:betlyn/infrastructure/models/sportmonks/season_response.dart';
 import 'package:dio/dio.dart';
-
-import 'package:betlyn/config/helpers/helpers.dart';
 import 'package:betlyn/config/constants/environment.dart';
+import 'package:betlyn/domain/entities/fixture.dart';
 import 'package:betlyn/domain/datasources/datasources.dart';
-import 'package:betlyn/domain/entities/entities.dart';
-import 'package:betlyn/infrastructure/models/models.dart';
+import 'package:betlyn/infrastructure/mappers/fixture_mapper.dart';
+import 'package:betlyn/infrastructure/models/sportmonks/fixture_response.dart';
 
-const popularLeagueIds = [2, 564, 384, 8, 82, 301];
 
 class SportmonksDatasource implements SportsDatasource {
   final dio = Dio(
@@ -18,32 +19,37 @@ class SportmonksDatasource implements SportsDatasource {
   );
 
   @override
-  Future<List<League>> getPopularLeagues() async {
-    final response = await dio.get('/football/leagues');
+  Future<List<Fixture>> getFixturesByDate({
+    required String startDate,
+    required String endDate,
+    required int leagueId,
+  }) async {
+    final response = await dio.get(
+      '/football/fixtures/between/$startDate/$endDate?filters=fixtureLeagues:$leagueId&include=state;participants;league;venue;scores',
+    );
 
-    List<League> allLeagues = AllLeaguesResponse.fromJson(
+    return FixtureResponse.fromJson(
       response.data,
-    ).data.map((league) => LeagueMapper.toEntity(league)).toList();
-
-    if (popularLeagueIds.isNotEmpty) {
-      allLeagues = allLeagues
-          .where((league) => popularLeagueIds.contains(league.id))
-          .toList();
-    }
-
-    return allLeagues;
+    ).fixtures.map((fixture) => FixtureMapper.toEntity(fixture)).toList();
   }
 
   @override
-  Future<List<Fixture>> getFixturesByDate() async {
-    final range = DateFormatter.weekRangeFromToday();
+  Future<Season> getLatestSeasonByLeague({required int leagueId}) async {
+    final response = await dio.get('/football/seasons?include=league&filters=seasonLeagues:$leagueId&order=desc');
 
-    final response = await dio.get(
-      '/football/fixtures/between/${range.start}/${range.end}?include=participants;league;venue',
-    );
+    final seasons = SeasonResponse.fromJson(response.data).data;
 
-    return FixturesResponse.fromJson(
-      response.data,
-    ).data.map((fixture) => FixtureMapper.fixtureToEntity(fixture)).toList();
+    final latestSeason = SeasonMapper.toEntity(seasons.firstWhere((season) => season.isCurrent));
+
+    return latestSeason;
+  }
+  
+  @override
+  Future<Fixture> getFixturesById({required int fixtureId}) async {
+    final response = await dio.get('/football/fixtures/$fixtureId?include=state;participants;league;venue;scores');
+
+    final fixtureModel = FixtureModel.fromJson(response.data['data']);
+
+    return FixtureMapper.toEntity(fixtureModel);
   }
 }

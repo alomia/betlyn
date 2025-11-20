@@ -24,3 +24,4 @@ final darkTheme = ThemeData.from(colorScheme: darkColorScheme).copyWith(
   splashFactory: NoSplash.splashFactory,
   highlightColor: Colors.transparent,
 );
+

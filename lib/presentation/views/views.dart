@@ -1,2 +1,2 @@
-export 'home/home_view.dart';
+export 'match_details/match_details_view.dart';
 export 'matches/matches_view.dart';
