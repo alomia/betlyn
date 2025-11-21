@@ -14,19 +14,9 @@ class MatchPrediction extends _$MatchPrediction {
   }
 
   Future<void> predict(Fixture match) async {
-
-    print(match);
-
-    print('Entro prediccion');
     final repository = ref.read(predictionsRepositoryProvider);
     final result = await repository.getMatchPrediction(match);
 
-    print('Guardo prediccion');
     state = {...state, match.id: result};
-    print('Fin');
-  }
-
-  String getPredictionByID(int id) {
-    return state[id] ?? '';
   }
 }

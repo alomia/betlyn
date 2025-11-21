@@ -30,4 +30,18 @@ class Fixture {
     required this.homeScore,
     required this.awayScore,
   });
+
+  Map<String, dynamic> toMap() => {
+    "id": id,
+    "leagueId": leagueId,
+    "name": name,
+    "startingAt": startingAt,
+    "state": state,
+    "home": home,
+    "away": away,
+    "league": league,
+    "venue": venue,
+    "homeScore": homeScore,
+    "awayScore": awayScore,
+  };
 }

@@ -1,9 +1,7 @@
-import 'package:betlyn/config/helpers/helpers.dart';
-import 'package:betlyn/domain/entities/entities.dart';
 import 'package:betlyn/presentation/providers/predictions/match_prediction/match_prediction_provider.dart';
 import 'package:betlyn/presentation/providers/sports/match_provider/match_provider.dart';
 import 'package:betlyn/presentation/widgets/league_header.dart';
-import 'package:betlyn/presentation/widgets/matches/team_column.dart';
+import 'package:betlyn/presentation/widgets/match_score_board.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -25,117 +23,70 @@ class MatchDetailsView extends ConsumerWidget {
         final prediction = predictionMap[match.id] ?? '';
 
         return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: LeagueHeader(
-            imagePath: match.league.imagePath,
-            title: match.league.name,
-          ),
-        ),
-        body: Column(
-          children: [
-            MatchScoreBoard(match: match),
-      
-            Divider(height: 30.0),
-      
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: SizedBox(
-                width: double.infinity,
-                height: 50.0,
-                child: FilledButton.icon(
-                  style: FilledButton.styleFrom(
-                    backgroundColor: Colors.grey.shade100,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                  ),
-                  onPressed: () {
-                    ref.read(matchPredictionProvider.notifier).predict(match);
-                  },
-                  icon: Icon(PhosphorIconsRegular.sparkle, color: Colors.black,),
-                  label: Text('Predecir', style: TextStyle(color: Colors.black),),
-                ),
-              ),
+          appBar: AppBar(
+            centerTitle: true,
+            title: LeagueHeader(
+              imagePath: match.league.imagePath,
+              title: match.league.name,
             ),
-      
-            prediction.isNotEmpty ? Text(prediction) : SizedBox()
-            
-          ],
-        ),
-      );
-      },
-    );
-  }
-}
-
-class MatchScoreBoard extends StatelessWidget {
-  final Fixture match;
-
-  const MatchScoreBoard({super.key, required this.match});
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
-      child: Row(
-        children: [
-          TeamColumn(
-            imagePath: match.home.imagePath,
-            name: match.home.shortCode,
-            width: 50.0,
           ),
+          body: Column(
+            children: [
+              MatchScoreBoard(match: match),
 
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              spacing: 15.0,
-              children: [
-                Text(
-                  DateFormatter.toHumanReadable(match.startingAt),
-                  style: textTheme.bodyLarge!.copyWith(
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+              Divider(height: 30.0),
 
-                  children: [
-                    Text(
-                      match.homeScore.goals.toString(),
-                      style: textTheme.headlineMedium,
-                    ),
-                    Chip(
-                      label: Text(
-                        match.state.name,
-                        style: textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w500,
-                        ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 50.0,
+                  child: FilledButton.icon(
+                    style: FilledButton.styleFrom(
+                      backgroundColor: Colors.grey.shade100,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5.0),
                       ),
                     ),
-                    Text(
-                      match.awayScore.goals.toString(),
-                      style: textTheme.headlineMedium,
+                    onPressed: () {
+                      ref.read(matchPredictionProvider.notifier).predict(match);
+                    },
+                    icon: Icon(
+                      PhosphorIconsRegular.sparkle,
+                      color: Colors.black,
                     ),
-                  ],
+                    label: Text(
+                      'Predecir',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
                 ),
-                Icon(
-                  PhosphorIconsRegular.soccerBall,
-                  color: Colors.grey.shade300,
-                ),
-              ],
-            ),
-          ),
+              ),
 
-          TeamColumn(
-            imagePath: match.away.imagePath,
-            name: match.away.shortCode,
-            width: 50.0,
+              prediction.isNotEmpty
+                  ? Column(
+                      children: [
+                        Divider(height: 30.0),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Card(
+                            elevation: 0,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10.0,
+                                vertical: 10.0,
+                              ),
+                              child: Text(prediction),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : SizedBox(),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
