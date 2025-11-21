@@ -25,14 +25,28 @@ class GeminiDatasource implements PredictionsDatasource {
     final matchMap = GeminiFixtureMapper.toGeminiJson(matchData);
     final matchJsonString = jsonEncode(matchMap);
 
-    final prompt = """
-      Eres un experto analista deportivo. 
-      Analiza el siguiente JSON con la información del partido:
-      $matchJsonString
-      
-      Dame una predicción muy corta, de no más de 30 palabras, sobre el resultado más probable.
-    """;
-    
+    final prompt =
+        """
+Eres un analista deportivo profesional especializado en apuestas inteligentes. 
+Recibirás un JSON con estadísticas detalladas del partido:
+
+$matchJsonString
+
+Tu tarea:
+1. Analiza profundamente todos los datos: forma reciente, goles marcados y concedidos, localía, historial, tendencias, tiros, tarjetas, corners, posesión, xG, alineaciones, rachas, etc.
+2. Identifica el mercado de apuesta MÁS inteligente y seguro según los datos, NO necesariamente quién gana.
+3. Puede ser: más/menos goles, ambos anotan, doble oportunidad, tarjetas, corners, tiros al arco, handicap, gol de localía, marcador probable, etc.
+4. Basado en el análisis, entrega **una sola recomendación precisa**, que tenga sentido estadístico.
+5. La respuesta debe ser **muy corta, contundente y clara (máximo 30 palabras)**.
+6. Evita explicaciones. Da solo la sugerencia final.
+
+Ejemplo de estilo deseado:
+- "Over 1.5 goles es la opción más sólida; ambos equipos promedian alto xG y defensas inconsistentes."
+- "Ambos anotan es la apuesta más inteligente; visitantes siempre marcan y locales conceden en 8/9 juegos."
+
+Responde con una recomendación directa y de calidad profesional para apostar.
+""";
+
     final response = await _dio.post(
       modelPath,
       data: {
@@ -46,6 +60,8 @@ class GeminiDatasource implements PredictionsDatasource {
       },
     );
 
-    return GeminiResponse.fromJson(response.data).candidates.first.content.parts.first.text;
+    return GeminiResponse.fromJson(
+      response.data,
+    ).candidates.first.content.parts.first.text;
   }
 }

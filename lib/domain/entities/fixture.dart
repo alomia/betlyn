@@ -3,6 +3,7 @@ import 'package:betlyn/domain/entities/score.dart';
 import 'package:betlyn/domain/entities/state.dart';
 import 'package:betlyn/domain/entities/team.dart';
 import 'package:betlyn/domain/entities/venue.dart';
+import 'package:betlyn/domain/entities/weatherreport.dart';
 
 class Fixture {
   final int id;
@@ -16,6 +17,7 @@ class Fixture {
   final Venue venue;
   final Score homeScore;
   final Score awayScore;
+  final Weatherreport weatherreport;
 
   Fixture({
     required this.id,
@@ -29,19 +31,6 @@ class Fixture {
     required this.venue,
     required this.homeScore,
     required this.awayScore,
+    required this.weatherreport,
   });
-
-  Map<String, dynamic> toMap() => {
-    "id": id,
-    "leagueId": leagueId,
-    "name": name,
-    "startingAt": startingAt,
-    "state": state,
-    "home": home,
-    "away": away,
-    "league": league,
-    "venue": venue,
-    "homeScore": homeScore,
-    "awayScore": awayScore,
-  };
 }

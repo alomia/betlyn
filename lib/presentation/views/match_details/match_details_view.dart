@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:betlyn/presentation/providers/predictions/match_prediction/match_prediction_provider.dart';
 import 'package:betlyn/presentation/providers/sports/match_provider/match_provider.dart';
 import 'package:betlyn/presentation/widgets/league_header.dart';
@@ -20,7 +21,8 @@ class MatchDetailsView extends ConsumerWidget {
       error: (error, stackTrace) => Center(child: Text(error.toString())),
       loading: () => Center(child: Text('Cargando')),
       data: (match) {
-        final prediction = predictionMap[match.id] ?? '';
+        final predictionState = predictionMap[match.id];
+        final isLoading = predictionState?.isLoading ?? false;
 
         return Scaffold(
           appBar: AppBar(
@@ -48,22 +50,37 @@ class MatchDetailsView extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(5.0),
                       ),
                     ),
-                    onPressed: () {
-                      ref.read(matchPredictionProvider.notifier).predict(match);
-                    },
-                    icon: Icon(
-                      PhosphorIconsRegular.sparkle,
-                      color: Colors.black,
-                    ),
+                    onPressed: isLoading
+                        ? null
+                        : () {
+                            ref
+                                .read(matchPredictionProvider.notifier)
+                                .predict(match);
+                          },
+                    icon: isLoading
+                        ? SpinPerfect(
+                          duration: Duration(seconds: 2),
+                          infinite: true,
+                          child: Icon(
+                            PhosphorIconsRegular.spinnerGap, size: 30),
+                        )
+                        : Icon(
+                            PhosphorIconsRegular.sparkle,
+                            color: Colors.black,
+                            size: 27.0,
+                          ),
                     label: Text(
-                      'Predecir',
-                      style: TextStyle(color: Colors.black),
+                      isLoading ? '' : 'Predecir',
+                      style: TextTheme.of(context).bodyLarge!.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ),
               ),
 
-              prediction.isNotEmpty
+              predictionState?.prediction.isNotEmpty == true
                   ? Column(
                       children: [
                         Divider(height: 30.0),
@@ -76,7 +93,7 @@ class MatchDetailsView extends ConsumerWidget {
                                 horizontal: 10.0,
                                 vertical: 10.0,
                               ),
-                              child: Text(prediction),
+                              child: Text(predictionState!.prediction),
                             ),
                           ),
                         ),

@@ -25,7 +25,7 @@ class SportmonksDatasource implements SportsDatasource {
     required int leagueId,
   }) async {
     final response = await dio.get(
-      '/football/fixtures/between/$startDate/$endDate?filters=fixtureLeagues:$leagueId&include=state;participants;league;venue;scores',
+      '/football/fixtures/between/$startDate/$endDate?filters=fixtureLeagues:$leagueId&include=state;participants;league;venue;scores;weatherReport',
     );
 
     return FixtureResponse.fromJson(
@@ -46,7 +46,7 @@ class SportmonksDatasource implements SportsDatasource {
   
   @override
   Future<Fixture> getFixturesById({required int fixtureId}) async {
-    final response = await dio.get('/football/fixtures/$fixtureId?include=state;participants;league;venue;scores');
+    final response = await dio.get('/football/fixtures/$fixtureId?include=state;participants;league;venue;scores;weatherReport');
 
     final fixtureModel = FixtureModel.fromJson(response.data['data']);
 

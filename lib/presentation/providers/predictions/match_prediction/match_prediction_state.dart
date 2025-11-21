@@ -1,11 +1,6 @@
 class MatchPredictionState {
   final bool isLoading;
-  final String? prediction;
-  final String? error;
+  final String prediction;
 
-  MatchPredictionState({
-    required this.isLoading,
-    required this.prediction,
-    required this.error,
-  });
+  MatchPredictionState({required this.isLoading, required this.prediction});
 }

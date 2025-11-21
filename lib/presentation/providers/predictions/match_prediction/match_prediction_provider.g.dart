@@ -41,7 +41,7 @@ final class MatchPredictionProvider
   }
 }
 
-String _$matchPredictionHash() => r'cb906f931579589e236ca51047479c91d1c56266';
+String _$matchPredictionHash() => r'a2d0a8bc038b27e6fbd3c25e1053258415a4425b';
 
 abstract class _$MatchPrediction extends $Notifier<FixtureMap> {
   FixtureMap build();

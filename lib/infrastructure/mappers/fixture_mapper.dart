@@ -4,6 +4,7 @@ import 'package:betlyn/infrastructure/mappers/score_mapper.dart';
 import 'package:betlyn/infrastructure/mappers/state_mapper.dart';
 import 'package:betlyn/infrastructure/mappers/team_mapper.dart';
 import 'package:betlyn/infrastructure/mappers/venue_mapper.dart';
+import 'package:betlyn/infrastructure/mappers/weatherreport_mapper.dart';
 import 'package:betlyn/infrastructure/models/sportmonks/fixture_model.dart';
 import 'package:betlyn/infrastructure/models/sportmonks/score_model.dart';
 
@@ -57,6 +58,7 @@ class FixtureMapper {
       venue: VenueMapper.toEntity(fixture.venue),
       homeScore: ScoreMapper.toEntity(homeScore),
       awayScore: ScoreMapper.toEntity(awayScore),
+      weatherreport: WeatherreportMapper.toEntity(fixture.weatherreport)
     );
   }
 }

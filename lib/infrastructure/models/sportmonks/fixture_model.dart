@@ -3,6 +3,7 @@ import 'package:betlyn/infrastructure/models/sportmonks/participant_model.dart';
 import 'package:betlyn/infrastructure/models/sportmonks/score_model.dart';
 import 'package:betlyn/infrastructure/models/sportmonks/state_model.dart';
 import 'package:betlyn/infrastructure/models/sportmonks/venue_model.dart';
+import 'package:betlyn/infrastructure/models/sportmonks/weatherreport_model.dart';
 
 class FixtureModel {
   final int? id;
@@ -30,6 +31,7 @@ class FixtureModel {
   final LeagueModel league;
   final VenueModel venue;
   final List<ScoreModel> scores;
+  final WeatherreportModel weatherreport;
 
   FixtureModel({
     required this.id,
@@ -57,6 +59,7 @@ class FixtureModel {
     required this.league,
     required this.venue,
     required this.scores,
+    required this.weatherreport,
   });
 
   factory FixtureModel.fromJson(Map<String, dynamic> json) => FixtureModel(
@@ -86,7 +89,10 @@ class FixtureModel {
     ),
     league: LeagueModel.fromJson(json["league"]),
     venue: VenueModel.fromJson(json["venue"]),
-    scores: List<ScoreModel>.from(json["scores"].map((x) => ScoreModel.fromJson(x))),
+    scores: List<ScoreModel>.from(
+      json["scores"].map((x) => ScoreModel.fromJson(x)),
+    ),
+    weatherreport: WeatherreportModel.fromJson(json["weatherreport"])
   );
 
   Map<String, dynamic> toJson() => {
@@ -115,5 +121,6 @@ class FixtureModel {
     "league": league.toJson(),
     "venue": venue.toJson(),
     "score": List<dynamic>.from(scores.map((x) => x.toJson())),
+    "weatherreport": weatherreport.toJson(),
   };
 }

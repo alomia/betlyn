@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:betlyn/presentation/providers/sports/matches_provider/matches_provider.dart';
 import 'package:betlyn/presentation/providers/sports/seasons_provider/seasons_provider.dart';
 import 'package:betlyn/presentation/widgets/league_header.dart';
@@ -20,31 +21,33 @@ class LeagueMatchesSection extends ConsumerWidget {
       data: (season) {
         final matchesAsync = ref.watch(matchesProvider(leagueId: season.league.id));
 
-        return matchesAsync.when(
-          error: (error, stackTrace) => Text(error.toString()),
-          loading: () => Text('Cargando Matches'),
-          data: (matches) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                LeagueHeader(
-                  imagePath: season.league.imagePath,
-                  title: season.league.name,
-                ),
-
-                ListView.separated(
-                  separatorBuilder: (context, index) => SizedBox(height: 10.0),
-                  itemCount: matches.length,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final match = matches[index];
-                    return MatchCard(match: match);
-                  },
-                ),
-              ],
-            );
-          },
+        return FadeIn(
+          child: matchesAsync.when(
+            error: (error, stackTrace) => Text(error.toString()),
+            loading: () => Text('Cargando Matches'),
+            data: (matches) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  LeagueHeader(
+                    imagePath: season.league.imagePath,
+                    title: season.league.name,
+                  ),
+          
+                  ListView.separated(
+                    separatorBuilder: (context, index) => SizedBox(height: 10.0),
+                    itemCount: matches.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final match = matches[index];
+                      return MatchCard(match: match);
+                    },
+                  ),
+                ],
+              );
+            },
+          ),
         );
       },
     );
