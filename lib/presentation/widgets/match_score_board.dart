@@ -58,7 +58,7 @@ class MatchScoreBoard extends StatelessWidget {
                 ),
                 Icon(
                   PhosphorIconsRegular.soccerBall,
-                  color: Colors.grey.shade300,
+                  color: Colors.grey.shade500,
                 ),
               ],
             ),

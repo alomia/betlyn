@@ -59,11 +59,13 @@ class MatchDetailsView extends ConsumerWidget {
                           },
                     icon: isLoading
                         ? SpinPerfect(
-                          duration: Duration(seconds: 2),
-                          infinite: true,
-                          child: Icon(
-                            PhosphorIconsRegular.spinnerGap, size: 30),
-                        )
+                            duration: Duration(seconds: 2),
+                            infinite: true,
+                            child: Icon(
+                              PhosphorIconsRegular.spinnerGap,
+                              size: 30,
+                            ),
+                          )
                         : Icon(
                             PhosphorIconsRegular.sparkle,
                             color: Colors.black,
@@ -93,13 +95,25 @@ class MatchDetailsView extends ConsumerWidget {
                                 horizontal: 10.0,
                                 vertical: 10.0,
                               ),
-                              child: Text(predictionState!.prediction),
+                              child: Text(
+                                predictionState!.prediction,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
                             ),
                           ),
                         ),
                       ],
                     )
-                  : SizedBox(),
+                  : Column(
+                      children: [
+                        SizedBox(height: 210.0),
+                        Icon(
+                          PhosphorIconsRegular.clover,
+                          size: 200.0,
+                          color: Colors.grey.shade900,
+                        ),
+                      ],
+                    ),
             ],
           ),
         );
